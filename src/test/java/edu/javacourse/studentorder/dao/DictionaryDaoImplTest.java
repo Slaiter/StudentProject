@@ -1,5 +1,11 @@
 package edu.javacourse.studentorder.dao;
 
+import edu.javacourse.studentorder.domain.CountryArea;
+import edu.javacourse.studentorder.domain.PassportOffice;
+import edu.javacourse.studentorder.domain.RegisterOffice;
+import edu.javacourse.studentorder.domain.Street;
+import edu.javacourse.studentorder.exception.DaoException;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -35,17 +41,32 @@ public class DictionaryDaoImplTest
     }
 
     @Test
-    public void testExampleFirst() {
-        System.out.println("TEST 1");
+    public void testStreet() throws DaoException {
+        List<Street> d = new DictionaryDaoImpl().findStreets("про");
+        Assert.assertTrue(d.size() == 2);
     }
 
     @Test
-    public void testExampleSecond() {
-        System.out.println("TEST 2");
+    public void testPassportOffice() throws DaoException {
+        List<PassportOffice> po = new DictionaryDaoImpl().findPassportOffices("010020000000");
+        Assert.assertTrue(po.size() == 2);
     }
 
     @Test
-    public void testExampleThird() {
-        System.out.println("TEST 3");
+    public void testRegisterOffice() throws DaoException {
+        List<PassportOffice> ro = new DictionaryDaoImpl().findPassportOffices("010010000000");
+        Assert.assertTrue(ro.size() == 2);
+    }
+
+    @Test
+    public void testArea() throws DaoException {
+        List<CountryArea> ca1 = new DictionaryDaoImpl().findAreas("");
+        Assert.assertTrue(ca1.size() == 2);
+        List<CountryArea> ca2 = new DictionaryDaoImpl().findAreas("020000000000");
+        Assert.assertTrue(ca2.size() == 2);
+        List<CountryArea> ca3 = new DictionaryDaoImpl().findAreas("020010000000");
+        Assert.assertTrue(ca3.size() == 2);
+        List<CountryArea> ca4 = new DictionaryDaoImpl().findAreas("020010010000");
+        Assert.assertTrue(ca4.size() == 2);
     }
 }

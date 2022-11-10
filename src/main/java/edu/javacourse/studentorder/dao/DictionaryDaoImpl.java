@@ -54,7 +54,7 @@ public class DictionaryDaoImpl implements DictionaryDao {
     }
 
     @Override
-    public List<PassportOffice> findPassportOffice(String areaId) throws DaoException {
+    public List<PassportOffice> findPassportOffices(String areaId) throws DaoException {
         List<PassportOffice> result = new LinkedList<>();
 
         try (Connection con = getConnection()) {

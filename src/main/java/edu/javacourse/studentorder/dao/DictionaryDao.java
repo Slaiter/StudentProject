@@ -12,7 +12,7 @@ public interface DictionaryDao {
 
     List<Street> findStreets(String pattern) throws DaoException;
 
-    List<PassportOffice> findPassportOffice(String pattern) throws DaoException;
+    List<PassportOffice> findPassportOffices(String pattern) throws DaoException;
 
     List<RegisterOffice> findRegisterOffice(String areaId) throws DaoException;
 
