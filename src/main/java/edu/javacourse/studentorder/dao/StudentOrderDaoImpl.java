@@ -1,6 +1,6 @@
 package edu.javacourse.studentorder.dao;
 
-import config.Config;
+import edu.javacourse.studentorder.config.Config;
 import edu.javacourse.studentorder.domain.Address;
 import edu.javacourse.studentorder.domain.Adult;
 import edu.javacourse.studentorder.domain.Child;
@@ -91,10 +91,7 @@ public class StudentOrderDaoImpl implements StudentOrderDao {
                     "WHERE student_order_status = ? ORDER BY so.student_order_id LIMIT ?";
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                Config.getProperty(Config.DB_URL),
-                Config.getProperty(Config.DB_LOGIN),
-                Config.getProperty(Config.DB_PASSWORD));
+        return ConnectionBuilder.getConnection();
     }
 
     @Override

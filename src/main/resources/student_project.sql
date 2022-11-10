@@ -3,21 +3,21 @@ DROP TABLE IF EXISTS jc_student_order;
 DROP TABLE IF EXISTS jc_passport_office;
 DROP TABLE IF EXISTS jc_register_office;
 DROP TABLE IF EXISTS jc_country_struct;
-DROP TABLE IF EXISTS jc_street;
 DROP TABLE IF EXISTS jc_university;
-
-CREATE TABLE jc_university
-(
-    university_id integer not null,
-    university_name varchar(300),
-    PRIMARY KEY (university_id)
-);
+DROP TABLE IF EXISTS jc_street;
 
 CREATE TABLE jc_street
 (
     street_code integer not null,
     street_name varchar(300),
     PRIMARY KEY (street_code)
+);
+
+CREATE TABLE jc_university
+(
+    university_id integer not null,
+    university_name varchar(300),
+    PRIMARY KEY (university_id)
 );
 
 CREATE TABLE jc_country_struct
@@ -114,7 +114,8 @@ CREATE TABLE jc_student_child
     FOREIGN KEY (student_order_id) REFERENCES jc_student_order(student_order_id) ON DELETE RESTRICT,
     FOREIGN KEY (c_street_code) REFERENCES jc_street(street_code) ON DELETE RESTRICT,
     FOREIGN KEY (c_register_office_id) REFERENCES jc_register_office(r_office_id) ON DELETE RESTRICT
-
-    CREATE INDEX idx_student_order_status ON jc_student_order(student_order_status);
-    CREATE INDEX idx_student_order_id ON jc_student_child(student_order_id);
 );
+
+CREATE INDEX idx_student_order_status ON jc_student_order(student_order_status);
+
+CREATE INDEX idx_student_order_id ON jc_student_child(student_order_id);

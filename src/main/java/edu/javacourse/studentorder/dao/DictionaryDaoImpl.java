@@ -1,6 +1,6 @@
 package edu.javacourse.studentorder.dao;
 
-import config.Config;
+import edu.javacourse.studentorder.config.Config;
 import edu.javacourse.studentorder.domain.CountryArea;
 import edu.javacourse.studentorder.domain.PassportOffice;
 import edu.javacourse.studentorder.domain.RegisterOffice;
@@ -30,10 +30,7 @@ public class DictionaryDaoImpl implements DictionaryDao {
             "FROM jc_country_struct WHERE area_id like ? and area_id <> ?";
 
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                Config.getProperty(Config.DB_URL),
-                Config.getProperty(Config.DB_LOGIN),
-                Config.getProperty(Config.DB_PASSWORD));
+        return ConnectionBuilder.getConnection();
     }
 
     public List<Street> findStreets(String pattern) throws DaoException {
