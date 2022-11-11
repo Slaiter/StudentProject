@@ -1,8 +1,9 @@
 package edu.javacourse.studentorder.dao;
 
+import com.sun.org.slf4j.internal.Logger;
+import com.sun.org.slf4j.internal.LoggerFactory;
 import edu.javacourse.studentorder.domain.CountryArea;
 import edu.javacourse.studentorder.domain.PassportOffice;
-import edu.javacourse.studentorder.domain.RegisterOffice;
 import edu.javacourse.studentorder.domain.Street;
 import edu.javacourse.studentorder.exception.DaoException;
 import org.junit.Assert;
@@ -14,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
