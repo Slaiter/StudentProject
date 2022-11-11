@@ -87,4 +87,16 @@ public class Adult extends Person {
     public void doSomething() {
         System.out.println("I am adult");
     }
+
+    @Override
+    public String toString() {
+        return "Adult{" +
+                "passportSeria='" + passportSeria + '\'' +
+                ", passportNumber='" + passportNumber + '\'' +
+                ", issueDate=" + issueDate +
+                ", issueDepartment=" + issueDepartment +
+                ", university=" + university +
+                ", studentId='" + studentId + '\'' +
+                "} " + super.toString();
+    }
 }

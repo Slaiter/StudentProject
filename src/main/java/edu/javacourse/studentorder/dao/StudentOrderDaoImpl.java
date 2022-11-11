@@ -12,6 +12,8 @@ import edu.javacourse.studentorder.domain.StudentOrder;
 import edu.javacourse.studentorder.domain.StudentOrderStatus;
 import edu.javacourse.studentorder.domain.University;
 import edu.javacourse.studentorder.exception.DaoException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,6 +29,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StudentOrderDaoImpl implements StudentOrderDao {
+
+    private static final Logger logger = LoggerFactory.getLogger(StudentOrderDaoImpl.class);
     private static final String INSERT_ORDER =
             "INSERT INTO jc_student_order(" +
                     " student_order_status, student_order_date, h_sur_name, " +
@@ -95,44 +99,47 @@ public class StudentOrderDaoImpl implements StudentOrderDao {
     }
 
     @Override
-    public Long saveStudentOrder(StudentOrder so) throws DaoException {
+    public Long saveStudentOrder(StudentOrder studentOrder) throws DaoException {
         long result = -1L;
 
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(INSERT_ORDER, new String[]{"student_order_id"})) {
+        logger.debug("StudentOrder:{}", studentOrder);
 
-            con.setAutoCommit(false);
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(INSERT_ORDER, new String[]{"student_order_id"})) {
+
+            connection.setAutoCommit(false);
             try {
                 // Header
-                stmt.setInt(1, StudentOrderStatus.START.ordinal());
-                stmt.setTimestamp(2, java.sql.Timestamp.valueOf(LocalDateTime.now()));
+                statement.setInt(1, StudentOrderStatus.START.ordinal());
+                statement.setTimestamp(2, java.sql.Timestamp.valueOf(LocalDateTime.now()));
 
                 // Husband and wife
-                setParamsForAdult(stmt, 3, so.getHusband());
-                setParamsForAdult(stmt, 18, so.getWife());
+                setParamsForAdult(statement, 3, studentOrder.getHusband());
+                setParamsForAdult(statement, 18, studentOrder.getWife());
 
                 // Marriage
-                stmt.setString(33, so.getMarriageCertificateId());
-                stmt.setLong(34, so.getMarriageOffice().getOfficeId());
-                stmt.setDate(35, java.sql.Date.valueOf(so.getMarriageDate()));
+                statement.setString(33, studentOrder.getMarriageCertificateId());
+                statement.setLong(34, studentOrder.getMarriageOffice().getOfficeId());
+                statement.setDate(35, java.sql.Date.valueOf(studentOrder.getMarriageDate()));
 
-                stmt.executeUpdate();
+                statement.executeUpdate();
 
-                ResultSet gkRs = stmt.getGeneratedKeys();
+                ResultSet gkRs = statement.getGeneratedKeys();
                 if (gkRs.next()) {
                     result = gkRs.getLong(1);
                 }
                 gkRs.close();
 
-                saveChildren(con, so, result);
+                saveChildren(connection, studentOrder, result);
 
-                con.commit();
+                connection.commit();
             } catch (SQLException ex) {
-                con.rollback();
+                connection.rollback();
                 throw ex;
             }
 
         } catch (SQLException ex) {
+            logger.error(ex.getMessage(), ex);
             throw new DaoException(ex);
         }
 
@@ -176,6 +183,7 @@ public class StudentOrderDaoImpl implements StudentOrderDao {
 
             resultSet.close();
         } catch(SQLException ex) {
+            logger.error(ex.getMessage(), ex);
             throw new DaoException(ex);
         }
 
@@ -200,6 +208,7 @@ public class StudentOrderDaoImpl implements StudentOrderDao {
 
             resultSet.close();
         } catch(SQLException ex) {
+            logger.error(ex.getMessage(), ex);
             throw new DaoException(ex);
         }
 

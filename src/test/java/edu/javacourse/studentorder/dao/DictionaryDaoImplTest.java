@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class    DictionaryDaoImplTest {
+public class DictionaryDaoImplTest {
 
     private static final Logger logger = LoggerFactory.getLogger(DictionaryDaoImplTest.class);
     @BeforeClass

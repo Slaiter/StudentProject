@@ -48,4 +48,13 @@ public class Child extends Person {
     public void doSomething() {
         System.out.println("I am Child");
     }
+
+    @Override
+    public String toString() {
+        return "Child{" +
+                "certificateNumber='" + certificateNumber + '\'' +
+                ", issueDate=" + issueDate +
+                ", issueDepartment=" + issueDepartment +
+                "} " + super.toString();
+    }
 }
